@@ -7,7 +7,10 @@ function App() {
     });
 
     useEffect(() => {
-        localStorage.setItem('students', JSON.stringify(students));
+        console.log(students);
+        if(students.length > 0){
+                localStorage.setItem('students', JSON.stringify(students));
+        }
     }, [students]);
     // To clear students for a new attendance next day
     const [isCleared, setIsCleared] = useState(false);
@@ -31,6 +34,7 @@ function App() {
 
 
     const addStudent = () => {
+        
         const isDuplicateRollNo = students.some((student) => student.rollNumber === rollNumber);
         if (isDuplicateRollNo) {
             alert('Roll number already exists!');
@@ -43,9 +47,14 @@ function App() {
             checkInTime: null,
             checkOutTime: null,
         };
+        console.log("new : " , newStudent);
+        if(newStudent.rollNumber.length > 0 && newStudent.studentName.length > 0 ){
         setStudents([...students, newStudent]);
         setRollNumber("");
         setStudentName("");
+        }else{
+            alert("Enter data:")
+        }
     };
 
     const checkInStudent = (index) => {
@@ -78,12 +87,14 @@ function App() {
                             Roll Number
                         </label>
                         <input
+                        required
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="rollNumber"
                             type="text"
                             placeholder="Enter roll number"
                             value={rollNumber}
                             onChange={(e) => setRollNumber(e.target.value)}
+                            
                         />
                     </div>
                     <div className="mb-6">
@@ -94,12 +105,14 @@ function App() {
                             Student Name
                         </label>
                         <input
+                        required
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="studentName"
                             type="text"
                             placeholder="Enter student name"
                             value={studentName}
                             onChange={(e) => setStudentName(e.target.value)}
+                           
                         />
                     </div>
                     <div className="flex items-center justify-between">
